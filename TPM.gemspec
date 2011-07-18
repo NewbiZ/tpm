@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.name        = "TPM"
   s.version     = TPM::VERSION
   s.authors     = ["Aurelien Vallee"]
-  s.email       = ["aurelien.vallee@cfm.fr"]
+  s.email       = ["vallee.aurelien@gmail.com"]
   s.homepage    = ""
   s.summary     = %q{Tiny Package Manager}
   s.description = %q{Tiny Package Manager}
