@@ -1,0 +1,39 @@
+#!/usr/bin/env ruby
+
+# Add 'lib' to the require path
+require 'pathname'
+TPM_LIBRARY_PATH = Pathname.new(__FILE__).realpath.dirname.parent.join('lib').to_s
+$:.unshift( TPM_LIBRARY_PATH )
+
+# Each commands is located in its own file
+def require_command? path
+  require path.chomp.to_s
+  rescue LoadError
+    false
+end
+
+aliases = {
+# Short aliases
+  'ls' => 'list',
+  'up' => 'update',
+  'in' => 'install',
+  'un' => 'uninstall',
+  'sr' => 'search',
+# Minus aliases
+  '-l' => 'list',
+  '-p' => 'update',
+  '-i' => 'install',
+  '-u' => 'uninstall',
+  '-s' => 'search',
+  '-h' => 'help'
+  }
+
+command = ARGV.shift
+command = aliases[command] if aliases[command]
+
+if require_command? "#{TPM_LIBRARY_PATH}/commands/#{command}"
+  TPM.send command.to_s.gsub('-','_'), ARGV
+else
+  puts "Unknown command '#{command}'."
+  exit(0)
+end
