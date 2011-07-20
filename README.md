@@ -82,19 +82,21 @@ in order to select the right libraries. Variables are self-explanatory.
 
   * stable.env
 
-        TPM_REPOSITORY_URL = scm://repo/environments/stable
-        TPM_SOURCE_PATH    = /opt/tpm/source
-        TPM_BUILD_PATH     = /opt/tpm/build
-        TPM_INSTALL_PATH   = /opt/tpm/install
-        TPM_TEMP_PATH      = /opt/tpm/temp
+        TPM_REPOSITORY_TYPE = svn
+        TPM_REPOSITORY_URL  = svn://svn.host.com/environments/stable
+        TPM_SOURCE_PATH     = /opt/tpm/source
+        TPM_BUILD_PATH      = /opt/tpm/build
+        TPM_INSTALL_PATH    = /opt/tpm/install
+        TPM_TEMP_PATH       = /opt/tpm/temp
 
   * custom.env
 
-        TPM_REPOSITORY_URL = scm://repo/users/username/custom_env
-        TPM_SOURCE_PATH    = /opt/username/source
-        TPM_BUILD_PATH     = /opt/username/build
-        TPM_INSTALL_PATH   = /opt/username/install
-        TPM_TEMP_PATH      = /opt/username/temp
+        TPM_REPOSITORY_TYPE = perforce
+        TPM_REPOSITORY_URL  = //depot/users/username/custom_env
+        TPM_SOURCE_PATH     = /opt/username/source
+        TPM_BUILD_PATH      = /opt/username/build
+        TPM_INSTALL_PATH    = /opt/username/install
+        TPM_TEMP_PATH       = /opt/username/temp
 
 Source directory layout
 -----------------------
@@ -152,6 +154,6 @@ Temporary directory layout
 `package.conf` format
 -------------------
 
-    name        = "yacht"
-    depends     = ["cruise", "boost"]
-    description = "The yacht package"
+    name        = "gnome"
+    depends     = ["x11", "freetype"]
+    description = "The gnome window manager"
