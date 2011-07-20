@@ -1,13 +1,13 @@
 Available commands
 -----------------
-
-  * `list`                 : List remote and local packages
-  * `stage ENVIRONMENT`    : Selects an environment based on an environment_name.env file
-  * `search PACKAGE   `    : For for remote and local packages
-  * `install PACKAGE...`   : Install a remote package
-  * `uninstall PACKAGE...` : Uninstall a local package
-  * `update PACKAGE...`    : Update an existing local package
-  * `info PACKAGE...`      : Retrieve information on a local or remote package
+  * `help`: Provides detailed information on commands.
+  * `install`: Installs a package on the local selected environment.
+  * `list`: List remote and local packages.
+  * `search`: Search for remote or local packages based on their name.
+  * `stage`: Stages up an environment
+  * `uninstall`: Uninstalls local packages for the currently selected environment.
+  * `update`: Updates local packages using the currently selected environment.
+  * `usage`: Provides information on the available commands.
 
 Library layout
 --------------
@@ -87,16 +87,18 @@ in order to select the right libraries. Variables are self-explanatory.
         TPM_SOURCE_PATH     = /opt/tpm/source
         TPM_BUILD_PATH      = /opt/tpm/build
         TPM_INSTALL_PATH    = /opt/tpm/install
+        TPM_STAGE_PATH      = /opt/tpm/stage
         TPM_TEMP_PATH       = /opt/tpm/temp
 
   * custom.env
 
         TPM_REPOSITORY_TYPE = perforce
         TPM_REPOSITORY_URL  = //depot/users/username/custom_env
-        TPM_SOURCE_PATH     = /opt/username/source
-        TPM_BUILD_PATH      = /opt/username/build
-        TPM_INSTALL_PATH    = /opt/username/install
-        TPM_TEMP_PATH       = /opt/username/temp
+        TPM_SOURCE_PATH     = /home/username/.tpm/source
+        TPM_BUILD_PATH      = /home/username/.tpm/build
+        TPM_INSTALL_PATH    = /home/username/.tpm/install
+        TPM_STAGE_PATH      = /home/username/.tpm/stage
+        TPM_TEMP_PATH       = /home/username/.tpm/temp
 
 Source directory layout
 -----------------------
