@@ -82,23 +82,16 @@ in order to select the right libraries. Variables are self-explanatory.
 
   * stable.env
 
-        TPM_REPOSITORY_TYPE = svn
-        TPM_REPOSITORY_URL  = svn://svn.host.com/environments/stable
-        TPM_SOURCE_PATH     = /opt/tpm/source
-        TPM_BUILD_PATH      = /opt/tpm/build
-        TPM_INSTALL_PATH    = /opt/tpm/install
-        TPM_STAGE_PATH      = /opt/tpm/stage
-        TPM_TEMP_PATH       = /opt/tpm/temp
+        repos_type: svn
+        repos_url : svn://svn.host.com/environments/stable
+        root_path : /opt/tpm/env/stable
 
-  * custom.env
+  * ~/.tpmrc
 
-        TPM_REPOSITORY_TYPE = perforce
-        TPM_REPOSITORY_URL  = //depot/users/username/custom_env
-        TPM_SOURCE_PATH     = /home/username/.tpm/source
-        TPM_BUILD_PATH      = /home/username/.tpm/build
-        TPM_INSTALL_PATH    = /home/username/.tpm/install
-        TPM_STAGE_PATH      = /home/username/.tpm/stage
-        TPM_TEMP_PATH       = /home/username/.tpm/temp
+        repo_type: perforce
+        repo_url : //depot/users/username/custom_env
+        root_path: /home/username/.tpm/custom
+
 
 Source directory layout
 -----------------------
@@ -141,17 +134,12 @@ encouraged.
      * lib
         * package3.so
         * package4.a
-     * share
-        * package5/package5.conf
-        * cmake
-           * modules
-              * FindPackage1.cmake
-              * FindPackage2.cmake
+     * include
+        * package1
+           * package1.h
+        * package2
+           * package2.h
 
-Temporary directory layout
---------------------------
-
-?
 
 `package.conf` format
 -------------------
