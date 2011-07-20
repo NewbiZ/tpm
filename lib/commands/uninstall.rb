@@ -1,24 +1,21 @@
-require 'utils_local.rb'
+require 'utils_local'
+require 'utils_common'
 
 module TPM extend self
-  def uninstall( args )
-    if args.empty?
-      puts "No package name provided."
-      return
-    end
+  def uninstall_short_description
+    <<-eos.unindent
+    Uninstalls local packages for the currently selected environment.
+    eos
+  end
 
-    args.each do |package|
-      if not exists_local_package?(package)
-        puts "Package \"#{package}\" is not currently installed."
-        next
-      end
+  def uninstall_long_description
+    <<-eos.unindent
+    Usage: tpm uninstall PACKAGE_1 ... PACKAGE_N
+    Uninstalls all packages that were provided from the currently
+    selected environment.
+    eos
+  end
 
-      if not uninstall_local_package(package)
-        puts "Error uninstalling \"#{package}\"."
-        next
-      end
-
-      puts "Successfully uninstalled package \"#{package}\"."
-    end
+  def uninstall_execute( args )
   end
 end

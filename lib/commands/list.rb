@@ -1,21 +1,23 @@
 require 'config'
-require 'utils_remote.rb'
-require 'utils_local.rb'
+require 'utils_remote'
+require 'utils_local'
+require 'utils_common'
 
 module TPM extend self
-  def list( args )
-    # Printing remote packages
-    puts "List of remote packages:"
-    list_remote_packages().each do |n|
-      puts '  * ' + n
-    end
+  def list_short_description
+    <<-eos.unindent
+    List remote and local packages.
+    eos
+  end
 
-    puts ""
+  def list_long_description
+    <<-eos.unindent
+    Usage: tpm list
+    Prints out a list of all remote and local packages available
+    in the currently selected environment.
+    eos
+  end
 
-    # Printing local packages
-    puts "List of local packages:"
-    list_local_packages().each do |n|
-      puts '  * ' + n
-    end
+  def list_execute( args )
   end
 end

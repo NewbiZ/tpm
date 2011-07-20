@@ -1,41 +1,23 @@
-require 'utils_remote.rb'
-require 'utils_local.rb'
+require 'utils_remote'
+require 'utils_common'
+require 'utils_local'
 
 module TPM extend self
-  def install( args )
-    if args.empty?
-      puts 'No package name provided.'
-      return
-    end
+  def install_short_description
+    <<-eos.unindent
+    Installs a package on the local selected environment.
+    eos
+  end
 
-    args.each do |package|
-      if exists_local_package?(package)
-        puts "Package \"#{package}\" already exists. Try the 'update' command."
-        next
-      end
+  def install_long_description
+    <<-eos.unindent
+    Usage: tpm install PACKAGE_1 ... PACKAGE_N
+    Installs all the specified packages on the local selected
+    environment.
+    eos
+  end
 
-      if not exists_remote_package?(package)
-        puts "Package \"#{package}\" does not exists."
-        next
-      end
-
-      if not checkout_remote_package(package)
-        puts "Error checking out \"#{package}\"."
-        next
-      end
-
-      if not build_local_package(package)
-        puts "Error building \"#{package}\"."
-        next
-      end
-
-      if not install_local_package(package)
-        puts "Error installing \"#{package}\"."
-        next
-      end
-
-      puts "Successfully installed package \"#{package}\"."
-    end
+  def install_execute( args )
   end
 end
 

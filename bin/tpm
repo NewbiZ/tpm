@@ -6,11 +6,7 @@ TPM_LIBRARY_PATH = Pathname.new(__FILE__).realpath.dirname.parent.join('lib').to
 $:.unshift( TPM_LIBRARY_PATH )
 
 # Each commands is located in its own file
-def require_command? path
-  require path.chomp.to_s
-  rescue LoadError
-    false
-end
+require 'utils_commands.rb'
 
 aliases = {
 # Short aliases
@@ -28,12 +24,15 @@ aliases = {
   '-h' => 'help'
   }
 
-command = ARGV.shift
-command = aliases[command] if aliases[command]
+command_name = ARGV.shift
+command_args = ARGV
+command_name = aliases[command_name] if aliases[command_name]
 
-if require_command? "#{TPM_LIBRARY_PATH}/commands/#{command}"
-  TPM.send command.to_s.gsub('-','_'), ARGV
+if command_exists? command_name
+  command_execute command_name, command_args
+elsif command_name==nil
+  puts 'No command provided.'
+  command_execute 'usage', command_args
 else
-  puts "Unknown command '#{command}'."
-  exit(0)
+  puts "Unknown command '#{command_name}'."
 end
