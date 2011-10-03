@@ -16,39 +16,46 @@ def load_config
     puts '%USERPROFILE% (windows) and a file named \'.tpmrc\''
     puts 'in it, which should look like the following:'
     puts ''
-    puts '  repo_url:  file:///var/svn_repository'
-    puts '  root_path: /home/user/.tpmrc'
-    puts '  repo_type: svn'
+    puts 'svn://depot/environments/development        -> using Subversion'
+    puts 'file:///home/user/environments/development  -> using local filesystem'
+    puts 'perforce:////depot/environments/development -> using Perforce'
 
     exit 1
   end
 
-  # Add '---' in head of file content for it to be considered
-  # as YAML
   conf = IO.read tpm_config_file
-  conf = "--- \n" + conf
 
-  tpm_config = YAML.parse(conf)
+  # Regular expression matching:
+  # <repository_type>://<repository_url>
+  parsed_array = conf.scan( /(\w+):\/\/(.*)/ )
+
+  # Check for basic .tpmrc repository URI syntax
+  # We should end up with something similar to:
+  # [['svn', '/depot/environments/development']]
+  if ( parsed_array.size != 1 )
+    puts "Configuration file #{tpm_config_file} is invalid"
+    exit 1
+  elsif ( parsed_array[0].size != 2 )
+    puts "Configuration file #{tpm_config_file} is invalid"
+    exit 1
+  end
+
+  $tpm_config_repo_type = parsed_array[0][0]
+  $tpm_config_repo_url  = parsed_array[0][1]
 
   # Check for config file sanity
-  if tpm_config['root_path']==nil
-    puts "Config file #{tpm_config_file} missing 'root_path'."
-    exit 1
-  elsif tpm_config['repo_url']==nil
-    puts "Config file #{tpm_config_file} missing 'repo_url'."
-    exit 1
-  elsif tpm_config['repo_type']==nil
-    puts "Config file #{tpm_config_file} missing 'repo_type'."
+  if not ['file','svn','perforce'].include? $tpm_config_repo_type
+    puts "Unsupported repository type '#{$tpm_config_repo_type}'."
+    puts "Currently TPM only supports 'file', 'svn' or 'perforce'."
+    puts "Check your configuration file #{tpm_config_file} and stage again."
     exit 1
   end
 
   # Create some handy config variables
-  $tpm_config_root_path    = tpm_config['root_path'].value
+  $tpm_config_root_path    = File.join( tpm_config_home,       '.tpm'    )
   $tpm_config_source_path  = File.join( $tpm_config_root_path, 'source'  )
   $tpm_config_build_path   = File.join( $tpm_config_root_path, 'build'   )
   $tpm_config_install_path = File.join( $tpm_config_root_path, 'install' )
-  $tpm_config_repo_url     = tpm_config['repo_url' ].value
-  $tpm_config_repo_type    = tpm_config['repo_type'].value
 
   # Create the above directories if they are missing
   begin
@@ -59,9 +66,17 @@ def load_config
   rescue SystemCallError
     puts "Error accessing root path #{$tpm_config_root_path}."
     puts "TPM needs read and write permissions on this directory."
-
     exit 1
   end
+
+  #@DEBUG@
+  #puts "$tpm_config_repo_type:    #{$tpm_config_repo_type}"
+  #puts "$tpm_config_repo_url:     #{$tpm_config_repo_url}"
+  #puts "$tpm_config_root_path:    #{$tpm_config_root_path}"
+  #puts "$tpm_config_source_path:  #{$tpm_config_source_path}"
+  #puts "$tpm_config_build_path:   #{$tpm_config_build_path}"
+  #puts "$tpm_config_install_path: #{$tpm_config_install_path}"
+  #@DEBUG@
 end
 
 # Pre create the TPM module

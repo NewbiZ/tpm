@@ -19,5 +19,14 @@ module TPM extend self
   end
 
   def list_execute( args )
+    if args.empty? or args=='all'
+      package_list = repository_list( :all )
+    elsif args=='remote'
+      package_list = repository_list( :remote )
+    elsif args=='local'
+      package_list = repository_list( :local )
+    end
+    puts 'Package list:'
+    puts package_list
   end
 end

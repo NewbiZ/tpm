@@ -11,7 +11,7 @@ module TPM extend self
   def help_long_description
     <<-eos.unindent
     Usage: tpm help COMMAND OPTS...
-    Provides details help on the specified command.
+    Provides detailed help on the specified command.
     eos
   end
 
