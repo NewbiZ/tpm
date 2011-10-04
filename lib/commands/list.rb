@@ -19,14 +19,33 @@ module TPM extend self
   end
 
   def list_execute( args )
-    if args.empty? or args=='all'
-      package_list = repository_list( :all )
-    elsif args=='remote'
-      package_list = repository_list( :remote )
-    elsif args=='local'
-      package_list = repository_list( :local )
+    if args.empty?
+      list_print_packages( 'Local packages',  list_local_packages  )
+      list_print_packages( 'Remote packages', list_remote_packages )
+    elsif args[0]=='local'
+      list_print_packages( 'Local packages',  list_local_packages  )
+    elsif args[0]=='remote'
+      list_print_packages( 'Remote packages', list_remote_packages )
+    else
+      puts "Unknown list argument. Check usage."
     end
-    puts 'Package list:'
-    puts package_list
+  end
+
+  def list_local_packages
+  end
+
+  def list_remote_packages
+    package_list = repository_remote_list
+  end
+
+  def list_print_packages( location, list )
+    puts "#{location}:"
+    if list==nil or list.empty?
+      puts '  <none>'
+    else
+      list.each do |package|
+        puts "  - #{package[0]} (##{package[1]})"
+      end
+    end
   end
 end

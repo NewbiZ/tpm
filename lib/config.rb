@@ -1,4 +1,4 @@
-require 'YAML'
+require 'utils_repositories'
 
 def load_config
   # '/home/user' on Linux
@@ -44,12 +44,14 @@ def load_config
   $tpm_config_repo_url  = parsed_array[0][1]
 
   # Check for config file sanity
-  if not ['file','svn','perforce'].include? $tpm_config_repo_type
+  if not repository_list().include? $tpm_config_repo_type
     puts "Unsupported repository type '#{$tpm_config_repo_type}'."
-    puts "Currently TPM only supports 'file', 'svn' or 'perforce'."
+    puts "Currently TPM only supports: #{repository_list().join(', ')}."
     puts "Check your configuration file #{tpm_config_file} and stage again."
     exit 1
   end
+
+  repository_load $tpm_config_repo_type
 
   # Create some handy config variables
   $tpm_config_root_path    = File.join( tpm_config_home,       '.tpm'    )
